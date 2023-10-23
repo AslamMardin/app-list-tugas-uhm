@@ -51,6 +51,7 @@ const tanyaNama = () => {
     }))
 }
 
+
 onBeforeMount(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
     if (getAuth == null) {
@@ -62,6 +63,7 @@ onMounted(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
     namaMhs.name = getAuth.name
     namaMhs.npm = getAuth.npm
+
 })
 
 </script>
@@ -71,7 +73,7 @@ onMounted(() => {
 
     <div class="row mt-5 mb-2">
         <div class="col-12">
-            <img src="public/img/logo-uhm.png" alt="Logo UHM" class="img-fluid">
+            <img src="logo-uhm.png" alt="Logo UHM" class="img-fluid">
         </div>
     </div>
 
