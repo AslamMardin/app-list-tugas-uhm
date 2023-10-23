@@ -1,39 +1,18 @@
 <script setup>
+
 import Navbar from './Layouts/Navbar.vue';
 import NamePlace from './Layouts/NamePlace.vue';
 import Footer from './Layouts/Footer.vue'
 import ListTugas from './Layouts/ListTugas.vue'
 import FormTugas from './Layouts/FormTugas.vue';
-import { reactive, onMounted, onBeforeMount } from 'vue';
+
+import api from '../api';
+import { reactive, ref, onMounted, onBeforeMount } from 'vue';
+
 const namaMhs = reactive({})
+const isAdmin = ref("")
 
-
-const mk = reactive([
-    {
-        id: 1,
-        nama: "Analisis dan Pemograman Berbasis Object"
-    },
-    {
-        id: 2,
-        nama: "Probalitas dan Proses Stokastik"
-    },
-    {
-        id: 3,
-        nama: "Filsafat Ilmu Komputer"
-    },
-    {
-        id: 4,
-        nama: "Teknologi Jaringan Komputer"
-    },
-    {
-        id: 5,
-        nama: "Arsitektur Jaringan"
-    },
-    {
-        id: 6,
-        nama: "Rekayasa Web"
-    },
-])
+const mk = ref([])
 
 const tanyaNama = () => {
     const name = prompt('Masukan Nama Mu ?', 'Pengunjung');
@@ -51,6 +30,24 @@ const tanyaNama = () => {
     }))
 }
 
+const getMatakuliah = async () => {
+    await api.get("matakuliah.json")
+        .then(res => {
+            mk.value = res.data.filter(item => item != null)
+        })
+
+}
+const listTugas = ref([])
+const getApiTugas = async () => {
+    await api.get("tugas.json")
+        .then(res => {
+            listTugas.value = res.data
+        })
+}
+
+const getTugas = () => {
+    getApiTugas()
+}
 
 onBeforeMount(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
@@ -61,8 +58,13 @@ onBeforeMount(() => {
 
 onMounted(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
+    isAdmin.value = getAuth.admin
     namaMhs.name = getAuth.name
     namaMhs.npm = getAuth.npm
+
+    getApiTugas()
+    getMatakuliah()
+
 
 })
 
@@ -84,11 +86,11 @@ onMounted(() => {
     </div>
 
     <section class="container mb-3">
-        <ListTugas />
+        <ListTugas :listTugas="listTugas" />
     </section>
 
-    <div class="container mb-4">
-        <FormTugas :matakuliahs="mk" />
+    <div class="container mb-4" v-show="isAdmin == 'admin'">
+        <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
     </div>
 
     <Footer></Footer>

@@ -5,21 +5,22 @@
             <div class="alert alert-warning">
                 <i class="bi bi-exclamation-triangle-fill"></i> Kerja Tugasta, Jangan Malas-Malasan!
             </div>
+            <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
             <ol class="list-group ">
                 <li class="list-group-item-primary list-group-item">
                     <i class="bi bi-pin-fill"></i> Analsisis dan Pemograman Object
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start" v-for="(item, i) in listTugas"
-                    :key="i">
+                <li class="list-group-item d-flex justify-content-between align-items-start"
+                    v-for="(item, i) in props.listTugas" :key="i">
                     <div class="ms-2 me-auto" v-if="item != null">
                         <div class="fw-bold">{{ item.created_at }}</div>
                         <i>"{{ item.keterangan }}"</i>
                     </div>
                     <span class="badge rounded-pill" :class="getDeadline(item.created_at,
                         item.deadline) > 6 ? 'bg-success' : (getDeadline(item.created_at,
-                            item.deadline) <= 2 ? 'bg-danger' : 'bg-warning')" v-if="item != null">{{
+                            item.deadline) <= 2 ? 'bg-danger' : 'bg-warning')" v-if="item != null">{{ `Sisa ` +
             getDeadline(item.created_at,
-                item.deadline) }}</span>
+                item.deadline) + ` Hari` }}</span>
                 </li>
             </ol>
         </div>
@@ -30,7 +31,7 @@
 import api from '../../api';
 import { reactive, ref, onMounted, computed } from 'vue';
 
-const listTugas = ref([])
+const props = defineProps(["listTugas"])
 
 const getDeadline = (tglDibuat, tglDeadline) => {
     // Program JavaScript untuk mengilustrasikan 
@@ -46,15 +47,6 @@ const getDeadline = (tglDibuat, tglDeadline) => {
     var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
     return parseInt(Difference_In_Days)
 }
-const getApiTugas = async () => {
-    await api.get("tugas.json")
-        .then(res => {
-            listTugas.value = res.data
-            console.log(listTugas.value)
-        })
-}
-onMounted(() => {
-    getApiTugas()
-})
+
 
 </script>
