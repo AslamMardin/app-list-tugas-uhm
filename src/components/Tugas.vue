@@ -102,14 +102,28 @@ onMounted(() => {
 
     getApiTugas()
     getMatakuliah()
-    play()
+
+
+    Swal.fire({
+        title: 'TUGAS UHM 2023',
+        text: "Mahasiswa dikenali",
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ok, Liat Tugas!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            play()
+        }
+    })
 })
 
 </script>
 
 
 <template>
-    <audio ref="input" id="player" autoplay>
+    <audio ref="input" id="player">
         <source src="ucapan.mp3" type="audio/mp3">
     </audio>
     <Navbar>Daftar Tugas</Navbar>
