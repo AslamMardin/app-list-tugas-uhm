@@ -33,6 +33,7 @@
 <script setup>
 import { reactive, ref, watch, computed, defineEmits, defineProps } from 'vue';
 import Api from '../../api';
+import Swal from 'sweetalert2';
 const props = defineProps(['matakuliahs'])
 const emit = defineEmits(["getTugas"])
 const isLoading = ref(false)
@@ -97,6 +98,12 @@ const tambahTugas = () => {
                     forms.mk = 0
                     forms.deadline = ""
                     forms.keterangan = ""
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'berhasil menambah tugas!',
+                    })
                 }).catch(e => {
                     console.log(e)
                 }).finally(() => {

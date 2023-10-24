@@ -8,6 +8,7 @@ import FormTugas from './Layouts/FormTugas.vue';
 
 import api from '../api';
 import { reactive, ref, onMounted, onBeforeMount } from 'vue';
+import Swal from 'sweetalert2';
 
 const namaMhs = reactive({})
 const isAdmin = ref("")
@@ -59,6 +60,25 @@ const getTugas = (data) => {
     getApiTugas()
 }
 
+const hapusTugas = async (id) => {
+    await api.delete(`tugas/${id}.json`).then(res => {
+        Swal.fire(
+            'Terhapus!',
+            'Tugas kamu sudah terhapus.',
+            'success'
+        )
+        listTugas.value = []
+        getApiTugas()
+    }).catch(e => {
+        Swal.fire(
+            'Gagal!',
+            'gagal terhapus.',
+            'error'
+        )
+    })
+
+}
+
 onBeforeMount(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
     if (getAuth == null) {
@@ -94,7 +114,7 @@ onMounted(() => {
     </div>
 
     <section class="container mb-3">
-        <ListTugas :listTugas="listTugas" :matakuliahs="mk" />
+        <ListTugas :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas" :isAdmin="isAdmin" />
     </section>
 
     <div class="container mb-4" v-show="isAdmin == 'admin'">
