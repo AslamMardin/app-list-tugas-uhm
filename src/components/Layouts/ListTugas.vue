@@ -19,18 +19,19 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
-                    <div class="ms-2 me-auto">
-                        <div class="fw-bold">{{ item.created_at }}</div>
+                    <div class="ms-2 me-auto" v-if="new Date(item.created_at) <= Date.now()">
+                        <div class="fw-bold">{{ item.created_at }}
+                        </div>
                         <i>"{{ item.keterangan }}"</i>
-                        <a v-if="isAdmin == 'admin'" style="cursor: pointer;"
-                            class="d-block text-danger d-inline-block mr-1"><i class="bi bi-trash3-fill"
-                                @click.prevent="hapusData(item.id, item.keterangan)"></i>Hapus
+                        <a v-if="isAdmin == 'admin'" style="cursor: pointer;" class="d-block text-danger mr-1"
+                            @click.prevent="hapusData(item.id, item.keterangan)"><i class="bi bi-trash3-fill"></i>Hapus
                         </a>
+
                     </div>
                     <div class="action">
                         <span class="badge rounded-pill mb-1" :class="getDeadline(item.created_at,
                             item.deadline) > 6 ? 'bg-success' : (getDeadline(item.created_at,
-                                item.deadline) <= 2 ? 'bg-danger' : 'bg-warning')">{{ `
+                                item.deadline) <= 2 ? 'bg-danger' : 'bg-warning text-dark')">{{ `
                             ${getDeadline(item.created_at, item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` +
                 getDeadline(item.created_at, item.deadline) + ` Hari`} ` }}</span>
                     </div>
@@ -91,6 +92,5 @@ const hapusData = (id, name = "") => {
         }
     })
 }
-
 
 </script>

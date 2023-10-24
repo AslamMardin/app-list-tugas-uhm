@@ -14,6 +14,10 @@ const namaMhs = reactive({})
 const isAdmin = ref("")
 
 const mk = ref([])
+const input = ref(null)
+const play = () => {
+    input.value.play()
+}
 
 const tanyaNama = () => {
     const name = prompt('Masukan Nama Mu ?', 'Pengunjung');
@@ -35,7 +39,9 @@ const getMatakuliah = async () => {
     await api.get("matakuliah.json")
         .then(res => {
             mk.value = res.data.filter(item => item != null)
+
         })
+
 
 }
 const listTugas = ref([])
@@ -84,7 +90,9 @@ onBeforeMount(() => {
     if (getAuth == null) {
         tanyaNama()
     }
+
 })
+
 
 onMounted(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
@@ -94,11 +102,16 @@ onMounted(() => {
 
     getApiTugas()
     getMatakuliah()
+    play()
 })
 
 </script>
 
+
 <template>
+    <audio ref="input" id="player" autoplay>
+        <source src="ucapan.mp3" type="audio/mp3">
+    </audio>
     <Navbar>Daftar Tugas</Navbar>
 
     <div class="row mt-5 mb-2">
