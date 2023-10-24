@@ -23,7 +23,7 @@
                     <textarea v-model="forms.keterangan" id="tugas" class="form-control" rows="5"></textarea>
                     <div class="text-danger" v-show="errors.keterangan.length != 0">{{ errors.keterangan }}</div>
                 </div>
-                <button type="submit" :disabled="isLoading" class="btn btn-primary">{{ isLoading ? 'Loading..' :
+                <button type="submit" :disabled="isLoading" class="btn btn-primary">{{ isLoading ? 'Harap Tunggu ya..' :
                     'Tambah' }}</button>
             </form>
         </div>
@@ -93,7 +93,7 @@ const tambahTugas = () => {
         setTimeout(() => {
             Api.post("tugas.json", dataLengkap)
                 .then(res => {
-                    emit("getTugas", "Berhasil Ditambah")
+                    emit("getTugas", res.data)
                     forms.mk = 0
                     forms.deadline = ""
                     forms.keterangan = ""

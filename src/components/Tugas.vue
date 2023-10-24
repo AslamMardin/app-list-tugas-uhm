@@ -38,14 +38,24 @@ const getMatakuliah = async () => {
 
 }
 const listTugas = ref([])
+const dataBaru = ref([])
 const getApiTugas = async () => {
     await api.get("tugas.json")
         .then(res => {
-            listTugas.value = res.data
+            for (let key in res.data) {
+                listTugas.value.push({
+                    id: key,
+                    created_at: res.data[key].created_at,
+                    deadline: res.data[key].deadline,
+                    keterangan: res.data[key].keterangan,
+                    mk_id: res.data[key].mk_id,
+                })
+            }
         })
 }
 
-const getTugas = () => {
+const getTugas = (data) => {
+    listTugas.value = []
     getApiTugas()
 }
 
@@ -64,8 +74,6 @@ onMounted(() => {
 
     getApiTugas()
     getMatakuliah()
-
-
 })
 
 </script>
@@ -86,7 +94,7 @@ onMounted(() => {
     </div>
 
     <section class="container mb-3">
-        <ListTugas :listTugas="listTugas" />
+        <ListTugas :listTugas="listTugas" :matakuliahs="mk" />
     </section>
 
     <div class="container mb-4" v-show="isAdmin == 'admin'">
