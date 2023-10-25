@@ -20,7 +20,7 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
                     <div class="ms-2 me-auto" v-if="new Date(item.created_at) <= Date.now()">
-                        <div class="fw-bold">{{ item.created_at }}
+                        <div class="fw-bold">{{ item.created_at }} - {{ item.deadline }}
                         </div>
                         <i>"{{ item.keterangan }}"</i>
                         <a v-if="isAdmin == 'admin'" style="cursor: pointer;" class="d-block text-danger mr-1"
@@ -29,11 +29,11 @@
 
                     </div>
                     <div class="action">
-                        <span class="badge rounded-pill mb-1" :class="getDeadline(item.created_at,
-                            item.deadline) > 6 ? 'bg-success' : (getDeadline(item.created_at,
+                        <span class="badge rounded-pill mb-1" :class="getDeadline(Date.now(),
+                            item.deadline) > 6 ? 'bg-success' : (getDeadline(Date.now(),
                                 item.deadline) <= 2 ? 'bg-danger' : 'bg-warning text-dark')">{{ `
-                            ${getDeadline(item.created_at, item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` +
-                getDeadline(item.created_at, item.deadline) + ` Hari`} ` }}</span>
+                            ${getDeadline(Date.now(), item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` + getDeadline(Date.now(),
+            item.deadline) + ` Hari`} ` }}</span>
                     </div>
                 </li>
             </ol>
@@ -49,19 +49,18 @@ import { reactive, ref, onMounted, computed, defineEmits, defineProps } from 'vu
 
 const props = defineProps(["listTugas", "matakuliahs", "isAdmin"])
 const emit = defineEmits(["hapusTugas"])
-const getDeadline = (tglDibuat, tglDeadline) => {
+const getDeadline = (sekarang, tglDeadline) => {
     // Program JavaScript untuk mengilustrasikan 
     // perhitungan jumlah hari antara dua tanggal 
 
-    // mengatur dua tanggal menjadi dua variabel
-    var date1 = new Date(tglDibuat);
+    // mengatur dua tanggal menjadi dua variabel    
     var date2 = new Date(tglDeadline);
     // hitung perbedaan waktu dari dua tanggal
-    var Difference_In_Time = date2.getTime() - date1.getTime();
+    var Difference_In_Time = date2.getTime() - sekarang;
 
     // hitung jml hari antara dua tanggal
     var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-    return parseInt(Difference_In_Days)
+    return Math.ceil(Difference_In_Days)
 }
 
 const hitungTugasForMK = (id) => {
