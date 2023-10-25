@@ -23,7 +23,8 @@
                     <textarea v-model="forms.keterangan" id="tugas" class="form-control" rows="5"></textarea>
                     <div class="text-danger" v-show="errors.keterangan.length != 0">{{ errors.keterangan }}</div>
                 </div>
-                <button type="submit" :disabled="isLoading" class="btn btn-primary">{{ isLoading ? 'Harap Tunggu ya..' :
+                <button type="submit" :disabled="isLoading" class="btn btn-primary"><i class="bi bi-folder-plus"></i> {{
+                    isLoading ? 'Harap Tunggu ya..' :
                     'Tambah' }}</button>
             </form>
         </div>

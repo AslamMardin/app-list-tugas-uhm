@@ -3,7 +3,9 @@
 
         <div class="card-body">
             <div class="alert alert-warning">
-                <i class="bi bi-exclamation-triangle-fill"></i> Kerja Tugasta, Jangan Malas-Malasan!
+                <marquee behavior="">
+                    <i class=" bi bi-exclamation-triangle-fill"></i> Kerja Tugasta, Jangan Malas-Malasan!
+                </marquee>
             </div>
             <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
             <ol v-else class="list-group mt-2" v-for="(data, j) in     props.matakuliahs    " :key="j">
@@ -13,28 +15,29 @@
                         <br>
                         <i class="bi bi-mortarboard-fill"></i> {{ data.dosen }}
                     </div>
-                    <span class="badge rounded-pil " :class="hitungTugasForMK(data.id) > 0 ? 'bg-success' : 'bg-secondary'">
+                    <span class="badge rounded-pil " :class="hitungTugasForMK(data.id) > 0 ? 'bg-primary' : 'bg-secondary'">
                         {{ hitungTugasForMK(data.id) }}
                     </span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
                     <div class="ms-2 me-auto" v-if="new Date(item.created_at) <= Date.now()">
-                        <div class="fw-bold">{{ item.created_at }} - {{ item.deadline }}
+                        <div class="fw-bold text-success" style="font-size: 12px;"><i class="bi bi-calendar3"></i> {{
+                            item.created_at }} <span class="badge rounded-pill mb-1" :class="getDeadline(Date.now(),
+        item.deadline) > 6 ? 'bg-success' : (getDeadline(Date.now(),
+            item.deadline) <= 2 ? 'bg-danger' : 'bg-warning text-dark')"><i class="bi bi-alarm"></i>{{ `
+                                ${getDeadline(Date.now(), item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` +
+                getDeadline(Date.now(), item.deadline) + ` Hari`} ` }}</span>
                         </div>
-                        <i>"{{ item.keterangan }}"</i>
+                        <div id="keterangan">
+                            <i style="font-size: 14px;">{{ item.keterangan }}</i>
+                        </div>
                         <a v-if="isAdmin == 'admin'" style="cursor: pointer;" class="d-block text-danger mr-1"
                             @click.prevent="hapusData(item.id, item.keterangan)"><i class="bi bi-trash3-fill"></i>Hapus
                         </a>
 
                     </div>
-                    <div class="action">
-                        <span class="badge rounded-pill mb-1" :class="getDeadline(Date.now(),
-                            item.deadline) > 6 ? 'bg-success' : (getDeadline(Date.now(),
-                                item.deadline) <= 2 ? 'bg-danger' : 'bg-warning text-dark')">{{ `
-                            ${getDeadline(Date.now(), item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` + getDeadline(Date.now(),
-            item.deadline) + ` Hari`} ` }}</span>
-                    </div>
+
                 </li>
             </ol>
         </div>
@@ -93,3 +96,14 @@ const hapusData = (id, name = "") => {
 }
 
 </script>
+
+<style scoped>
+#keterangan {
+    background-color: #efe;
+    padding: .3rem 1rem;
+    border-radius: 0 .5rem .5rem 0;
+    margin-top: .5rem;
+    border-left: 5px solid green;
+    font-weight: 400;
+}
+</style>
