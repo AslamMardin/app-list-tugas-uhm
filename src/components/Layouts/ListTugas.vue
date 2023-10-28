@@ -21,13 +21,12 @@
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
-                    <div class="ms-2 me-auto" v-if="new Date(item.created_at) <= Date.now()">
+                    <div class="ms-2 me-auto">
                         <div class="fw-bold text-success" style="font-size: 12px;"><i class="bi bi-calendar3"></i> {{
-                            item.created_at }} <span class="badge rounded-pill mb-1" :class="getDeadline(Date.now(),
-        item.deadline) > 6 ? 'bg-success' : (getDeadline(Date.now(),
-            item.deadline) <= 2 ? 'bg-danger' : 'bg-warning text-dark')"><i class="bi bi-alarm"></i>{{ `
-                                ${getDeadline(Date.now(), item.deadline) <= 0 ? 'Malam Ini' : `Sisa ` +
-                getDeadline(Date.now(), item.deadline) + ` Hari`} ` }}</span>
+                            item.created_at }} <span class="badge rounded-pill mb-1" :class="warnaDeadline(item)"><i
+                                    class="bi bi-alarm"></i> {{
+                                        prosesDeadline(item)
+                                    }}</span>
                         </div>
                         <div id="keterangan">
                             <i style="font-size: 14px;">{{ item.keterangan }}</i>
@@ -77,6 +76,29 @@ const hitungTugasForMK = (id) => {
 
 }
 
+const prosesDeadline = (item) => {
+    if (getDeadline(Date.now(), item.deadline) == 1) {
+        return 'Malam ini'
+    } else if (getDeadline(Date.now(), item.deadline) <= 0) {
+        return 'Hangus'
+    } else {
+        return getDeadline(Date.now(), item.deadline) + ' Hari'
+    }
+}
+
+const warnaDeadline = (item) => {
+    console.log(getDeadline(Date.now(), item.deadline))
+    if (getDeadline(Date.now(), item.deadline) <= 0) {
+        return 'bg-secondary'
+    } else if (getDeadline(Date.now(), item.deadline) > 6) {
+        return 'bg-success'
+    } else if (getDeadline(Date.now(), item.deadline) <= 5 && getDeadline(Date.now(), item.deadline) > 3) {
+        return 'bg-warning'
+    } else if (getDeadline(Date.now(), item.deadline) < 3) {
+        return 'bg-danger'
+    }
+}
+
 const hapusData = (id, name = "") => {
 
     Swal.fire({
@@ -94,6 +116,7 @@ const hapusData = (id, name = "") => {
         }
     })
 }
+
 
 </script>
 
