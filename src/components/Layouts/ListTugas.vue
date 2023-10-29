@@ -22,19 +22,24 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold" style="font-size: 12px;">
-                            <i class="bi bi-calendar3"></i> {{ item.created_at }}
-                            <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
-                                <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
-                            <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
-                            }}</span>
+                        <div class="d-flex justify-content-between">
+
+                            <div class="fw-bold" style="font-size: 12px;">
+                                <i class="bi bi-calendar3"></i> {{ item.created_at }}
+                                <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
+                                    <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
+                                <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
+                                }}</span>
+                            </div>
+                            <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 14px;"
+                                class="d-block text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
+                                    class="bi bi-trash3-fill"></i>
+                            </a>
                         </div>
                         <div id="keterangan">
                             <i style="font-size: 14px;">{{ item.keterangan }}</i>
                         </div>
-                        <a v-if="isAdmin == 'admin'" style="cursor: pointer;" class="d-block text-danger mr-1"
-                            @click.prevent="hapusData(item.id, item.keterangan)"><i class="bi bi-trash3-fill"></i>Hapus
-                        </a>
+
 
                     </div>
 

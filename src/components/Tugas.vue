@@ -14,6 +14,7 @@ const namaMhs = reactive({})
 const isAdmin = ref("")
 
 const mk = ref([])
+const hideForm = ref(true)
 const input = ref(null)
 const play = () => {
     input.value.play()
@@ -157,7 +158,12 @@ onMounted(() => {
         <ListTugas :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas" :isAdmin="isAdmin" />
     </section>
 
-    <div class="container mb-4" v-show="isAdmin == 'admin'">
+    <div class="container mb-2">
+        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
+                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
+                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
+    </div>
+    <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
         <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
     </div>
 
