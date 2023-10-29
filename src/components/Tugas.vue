@@ -25,6 +25,10 @@ const tanyaNama = () => {
     let admin = "";
     if (npm == "2023130018") {
         admin = "admin"
+    } else if (npm == "2023130013") {
+        admin = "admin"
+    } else if (npm == "2023130020") {
+        admin = "admin"
     } else {
         admin = "client"
     }
@@ -56,6 +60,7 @@ const getApiTugas = async () => {
                     deadline: res.data[key].deadline,
                     keterangan: res.data[key].keterangan,
                     mk_id: res.data[key].mk_id,
+                    status: res.data[key].status
                 })
             }
         })
@@ -89,8 +94,16 @@ onBeforeMount(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
     if (getAuth == null) {
         tanyaNama()
-    }
+    } else {
+        if (getAuth.npm == "2023130018" || getAuth.npm == "2023130013" || getAuth == "2023130020") {
+            localStorage.setItem('myAuth', JSON.stringify({
+                name: getAuth.name,
+                npm: getAuth.npm,
+                admin: "admin"
+            }))
+        }
 
+    }
 })
 
 

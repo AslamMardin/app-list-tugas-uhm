@@ -13,6 +13,15 @@
                     <div class="text-danger" v-show="errors.mk.length != 0">{{ errors.mk }}</div>
                 </div>
                 <div class="mb-3">
+                    <label for="status" class="form-label">Status Tugas</label>
+                    <select class="form-control" id="status" v-model="forms.status">
+                        <option value="0">Pilih Status</option>
+                        <option value="individu">individu</option>
+                        <option value="kelompok">kelompok</option>
+                    </select>
+                    <div class="text-danger" v-show="errors.status.length != 0">{{ errors.status }}</div>
+                </div>
+                <div class="mb-3">
                     <label for="deadline" class="form-label">Deadline</label>
                     <input v-model="forms.deadline" type="date" class="form-control" id="deadline"
                         aria-describedby="emailHelp">
@@ -41,13 +50,15 @@ const isLoading = ref(false)
 const forms = reactive({
     mk: 0,
     deadline: '',
-    keterangan: ''
+    keterangan: '',
+    status: ''
 })
 
 const errors = reactive({
     mk: '',
     deadline: '',
-    keterangan: ''
+    keterangan: '',
+    status: ''
 })
 
 const tanggalSekarang = () => {
@@ -70,6 +81,12 @@ const tambahTugas = () => {
         errors.mk = ""
     }
 
+    if (forms.status == 0) {
+        errors.status = "Harus milih status Tugas yang ada"
+    } else {
+        errors.status = ""
+    }
+
     if (forms.deadline.length == '') {
         errors.deadline = "tolong deadlinenya diperhatikan"
     } else if ((new Date(forms.deadline) < new Date(tanggalSekarang()))) {
@@ -84,12 +101,13 @@ const tambahTugas = () => {
         errors.keterangan = ""
     }
 
-    if (errors.mk.length == 0 && errors.deadline.length == 0 && errors.keterangan.length == 0) {
+    if (errors.mk.length == 0 && errors.deadline.length == 0 && errors.keterangan.length == 0 && errors.status.length == 0) {
         const dataLengkap = {
             created_at: tanggalSekarang(),
             deadline: forms.deadline,
             keterangan: forms.keterangan,
-            mk_id: forms.mk
+            mk_id: forms.mk,
+            status: forms.status
         }
         isLoading.value = true
         setTimeout(() => {
@@ -99,6 +117,7 @@ const tambahTugas = () => {
                     forms.mk = 0
                     forms.deadline = ""
                     forms.keterangan = ""
+                    forms.status = ""
 
                     Swal.fire({
                         icon: 'success',

@@ -22,11 +22,12 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
                     <div class="ms-2 me-auto">
-                        <div class="fw-bold text-success" style="font-size: 12px;"><i class="bi bi-calendar3"></i> {{
-                            item.created_at }} <span class="badge rounded-pill mb-1" :class="warnaDeadline(item)"><i
-                                    class="bi bi-alarm"></i> {{
-                                        prosesDeadline(item)
-                                    }}</span>
+                        <div class="fw-bold" style="font-size: 12px;">
+                            <i class="bi bi-calendar3"></i> {{ item.created_at }}
+                            <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
+                                <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
+                            <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
+                            }}</span>
                         </div>
                         <div id="keterangan">
                             <i style="font-size: 14px;">{{ item.keterangan }}</i>
@@ -65,6 +66,14 @@ const getDeadline = (sekarang, tglDeadline) => {
     return Math.ceil(Difference_In_Days)
 }
 
+const statusTugas = (item) => {
+    if (item.status == "kelompok") {
+        return "bi bi-people-fill"
+    } else {
+        return "bi bi-person-fill"
+    }
+}
+
 const hitungTugasForMK = (id) => {
     let angka = 0;
     props.listTugas.find(tgs => {
@@ -78,21 +87,20 @@ const hitungTugasForMK = (id) => {
 
 const prosesDeadline = (item) => {
     if (getDeadline(Date.now(), item.deadline) == 1) {
-        return 'Malam ini'
+        return 'Sisa Malam ini'
     } else if (getDeadline(Date.now(), item.deadline) <= 0) {
         return 'Hangus'
     } else {
-        return getDeadline(Date.now(), item.deadline) + ' Hari'
+        return 'Sisa ' + getDeadline(Date.now(), item.deadline) + ' Hari'
     }
 }
 
 const warnaDeadline = (item) => {
-    console.log(getDeadline(Date.now(), item.deadline))
     if (getDeadline(Date.now(), item.deadline) <= 0) {
         return 'bg-secondary'
-    } else if (getDeadline(Date.now(), item.deadline) > 6) {
+    } else if (getDeadline(Date.now(), item.deadline) >= 6) {
         return 'bg-success'
-    } else if (getDeadline(Date.now(), item.deadline) <= 5 && getDeadline(Date.now(), item.deadline) > 3) {
+    } else if (getDeadline(Date.now(), item.deadline) <= 5 && getDeadline(Date.now(), item.deadline) >= 3) {
         return 'bg-warning'
     } else if (getDeadline(Date.now(), item.deadline) < 3) {
         return 'bg-danger'
@@ -128,5 +136,13 @@ const hapusData = (id, name = "") => {
     margin-top: .5rem;
     border-left: 5px solid green;
     font-weight: 400;
+}
+
+.badge-l {
+    border-radius: 10px 0 0 10px !important;
+}
+
+.badge-r {
+    border-radius: 0px 10px 10px 0px !important;
 }
 </style>
