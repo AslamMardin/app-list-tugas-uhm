@@ -1,10 +1,11 @@
 <template>
     <div class="card shadow">
 
-        <div class="card-body">
+        <div class="card-body w-100">
             <div class="alert alert-warning">
                 <marquee behavior="">
-                    <i class=" bi bi-exclamation-triangle-fill"></i> Kerja Tugasta, Jangan Malas-Malasan!
+                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Kerjai! Jangan
+                    Malas-Malasan! cihhh
                 </marquee>
             </div>
             <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
@@ -25,7 +26,12 @@
                         <div class="d-flex justify-content-between">
 
                             <div class="fw-bold" style="font-size: 12px;">
-                                <i class="bi bi-calendar3"></i> {{ item.created_at }}
+                                <i class="bi bi-calendar3"></i> <span class="text-primary">{{ item.created_at
+                                }}</span>
+                                ><span class="text-danger">{{ item.deadline }} </span>
+                                |
+                                <i class="bi bi-clock-fill"></i> 22:00 Malam
+                                <br>
                                 <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
                                     <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
                                 <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
@@ -35,12 +41,17 @@
                                 class="d-block text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
                                     class="bi bi-trash3-fill"></i>
                             </a>
+
                         </div>
                         <div id="keterangan">
                             <i style="font-size: 14px;">{{ item.keterangan }}</i>
                         </div>
-
-
+                        <!-- <div class="form-check form-switch mt-2">
+                            <input @change="changeStatus($event, item.id)" class="form-check-input" type="checkbox"
+                                role="switch" :id="'flexSwitchCheckDefault' + item.id">
+                            <label class="form-check-label" :for="'flexSwitchCheckDefault' + item.id"><i
+                                    class="bi bi-check2-circle text-success"></i></label>
+                        </div> -->
                     </div>
 
                 </li>
@@ -53,10 +64,17 @@
 import api from '../../api';
 import Swal from 'sweetalert2';
 
-import { reactive, ref, onMounted, computed, defineEmits, defineProps } from 'vue';
+import { reactive, ref, onMounted, computed, defineEmits, defineProps, pushScopeId } from 'vue';
 
-const props = defineProps(["listTugas", "matakuliahs", "isAdmin"])
+const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas"])
 const emit = defineEmits(["hapusTugas"])
+const cekSelesai = ref([])
+
+
+const getFormatDate = (tgl) => {
+    let d = new Date(tgl);
+    return `${d.getDay()}-${d.getMonth()}-${d.getFullYear()}`
+}
 const getDeadline = (sekarang, tglDeadline) => {
     // Program JavaScript untuk mengilustrasikan 
     // perhitungan jumlah hari antara dua tanggal 
@@ -91,9 +109,9 @@ const hitungTugasForMK = (id) => {
 }
 
 const prosesDeadline = (item) => {
-    if (getDeadline(Date.now(), item.deadline) == 1) {
+    if (getDeadline(Date.now(), item.deadline) == 0 || getDeadline(Date.now(), item.deadline) == 1) {
         return 'Sisa Malam ini'
-    } else if (getDeadline(Date.now(), item.deadline) <= 0) {
+    } else if (getDeadline(Date.now(), item.deadline) < 0) {
         return 'Hangus'
     } else {
         return 'Sisa ' + getDeadline(Date.now(), item.deadline) + ' Hari'
@@ -101,14 +119,16 @@ const prosesDeadline = (item) => {
 }
 
 const warnaDeadline = (item) => {
-    if (getDeadline(Date.now(), item.deadline) <= 0) {
-        return 'bg-secondary'
-    } else if (getDeadline(Date.now(), item.deadline) >= 6) {
+
+
+    if (getDeadline(Date.now(), item.deadline) >= 6) {
         return 'bg-success'
     } else if (getDeadline(Date.now(), item.deadline) <= 5 && getDeadline(Date.now(), item.deadline) >= 3) {
         return 'bg-warning'
-    } else if (getDeadline(Date.now(), item.deadline) < 3) {
+    } else if (getDeadline(Date.now(), item.deadline) < 3 || getDeadline(Date.now(), item.deadline) == 0) {
         return 'bg-danger'
+    } else if (getDeadline(Date.now(), item.deadline) < 0) {
+        return 'bg-secondary'
     }
 }
 
@@ -141,6 +161,8 @@ const hapusData = (id, name = "") => {
     margin-top: .5rem;
     border-left: 5px solid green;
     font-weight: 400;
+    min-width: 100% !important;
+    transition: color 1s;
 }
 
 .badge-l {

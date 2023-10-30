@@ -49,6 +49,7 @@ const getMatakuliah = async () => {
 
 
 }
+const totalTugas = ref(0)
 const listTugas = ref([])
 const dataBaru = ref([])
 const getApiTugas = async () => {
@@ -63,6 +64,7 @@ const getApiTugas = async () => {
                     mk_id: res.data[key].mk_id,
                     status: res.data[key].status
                 })
+                totalTugas.value++
             }
         })
 }
@@ -131,6 +133,8 @@ onMounted(() => {
             play()
         }
     })
+
+
 })
 
 </script>
@@ -155,7 +159,8 @@ onMounted(() => {
     </div>
 
     <section class="container mb-3">
-        <ListTugas :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas" :isAdmin="isAdmin" />
+        <ListTugas :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas" :isAdmin="isAdmin"
+            :totalTugas="totalTugas" />
     </section>
 
     <div class="container mb-2">
