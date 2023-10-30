@@ -1,5 +1,6 @@
 <script setup>
 
+
 import Navbar from './Layouts/Navbar.vue';
 import NamePlace from './Layouts/NamePlace.vue';
 import Footer from './Layouts/Footer.vue'
@@ -98,7 +99,7 @@ onBeforeMount(() => {
     if (getAuth == null) {
         tanyaNama()
     } else {
-        if (getAuth.npm == "2023130018" || getAuth.npm == "2023130013" || getAuth == "2023130020") {
+        if (getAuth.npm == "2023130018") {
             localStorage.setItem('myAuth', JSON.stringify({
                 name: getAuth.name,
                 npm: getAuth.npm,
@@ -109,6 +110,7 @@ onBeforeMount(() => {
     }
 })
 
+const isLoadingContent = ref(true)
 
 onMounted(() => {
     const getAuth = JSON.parse(localStorage.getItem('myAuth'))
@@ -116,23 +118,27 @@ onMounted(() => {
     namaMhs.name = getAuth.name
     namaMhs.npm = getAuth.npm
 
-    getApiTugas()
-    getMatakuliah()
+    setTimeout(() => {
+        isLoadingContent.value = false
+        getApiTugas()
+        getMatakuliah()
+        Swal.fire({
+            title: 'TUGAS UHM 2023',
+            text: "Mahasiswa dikenali",
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok, Liat Tugas!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                play()
+            }
+        })
+
+    }, 1500)
 
 
-    Swal.fire({
-        title: 'TUGAS UHM 2023',
-        text: "Mahasiswa dikenali",
-        icon: 'success',
-        showCancelButton: false,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Ok, Liat Tugas!'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            play()
-        }
-    })
 
 
 })
@@ -159,8 +165,9 @@ onMounted(() => {
     </div>
 
     <section class="container mb-3">
-        <ListTugas :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas" :isAdmin="isAdmin"
-            :totalTugas="totalTugas" />
+
+        <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas"
+            :isAdmin="isAdmin" :totalTugas="totalTugas" />
     </section>
 
     <div class="container mb-2">

@@ -1,7 +1,9 @@
 <template>
     <div class="card shadow">
-
-        <div class="card-body w-100">
+        <div class="d-flex justify-content-center opacity-50 align-items-center my-5" v-if="props.isLoadingContent">
+            <SyncLoader color="gray" />
+        </div>
+        <div class="card-body w-100" v-else>
             <div class="alert alert-warning">
                 <marquee behavior="">
                     <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Kerjai! Jangan
@@ -63,10 +65,10 @@
 <script setup>
 import api from '../../api';
 import Swal from 'sweetalert2';
-
+import SyncLoader from 'vue-spinner/src/SyncLoader.vue';
 import { reactive, ref, onMounted, computed, defineEmits, defineProps, pushScopeId } from 'vue';
 
-const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas"])
+const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas", "isLoadingContent"])
 const emit = defineEmits(["hapusTugas"])
 const cekSelesai = ref([])
 
