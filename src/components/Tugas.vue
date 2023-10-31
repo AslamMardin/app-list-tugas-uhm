@@ -135,10 +135,7 @@ onMounted(() => {
                 play()
             }
         })
-
-    }, 1500)
-
-
+    }, 2000)
 
 
 })
@@ -170,7 +167,7 @@ onMounted(() => {
             :isAdmin="isAdmin" :totalTugas="totalTugas" />
     </section>
 
-    <div class="container mb-2">
+    <div class="container mb-2" v-show="isAdmin == 'admin'" v-if="!hideForm">
         <button class="btn btn-dark" @click="hideForm = !hideForm"><i
                 :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
                     'Sembunyakan Form' : 'Tampilkan Form' }}</button>

@@ -45,15 +45,21 @@
                             </a>
 
                         </div>
-                        <div id="keterangan">
+                        <div :class="cekStatus(item.id) ? 'selesai' : 'belum_selesai'">
                             <i style="font-size: 14px;">{{ item.keterangan }}</i>
                         </div>
-                        <!-- <div class="form-check form-switch mt-2">
-                            <input @change="changeStatus($event, item.id)" class="form-check-input" type="checkbox"
-                                role="switch" :id="'flexSwitchCheckDefault' + item.id">
-                            <label class="form-check-label" :for="'flexSwitchCheckDefault' + item.id"><i
-                                    class="bi bi-check2-circle text-success"></i></label>
-                        </div> -->
+                        <div class="form-check form-switch mt-2 d-flex justify-content-between" style="font-size: 12px;">
+                            <input @change="changeStatus($event, item.id)" class="form-check-input"
+                                style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
+                                :id="'flexSwitchCheckDefault' + item.id">
+                            <label v-if="cekStatus(item.id)" class="form-check-label text-success"
+                                :for="'flexSwitchCheckDefault' + item.id"><i class="bi bi-check2-circle "></i>
+                                Selesai</label>
+                            <label v-else class="form-check-label text-danger" :for="'flexSwitchCheckDefault' + item.id"><i
+                                    class="bi bi-x-lg"></i>
+                                Belum Selesai</label>
+
+                        </div>
                     </div>
 
                 </li>
@@ -70,8 +76,54 @@ import { reactive, ref, onMounted, computed, defineEmits, defineProps, pushScope
 
 const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas", "isLoadingContent"])
 const emit = defineEmits(["hapusTugas"])
-const cekSelesai = ref([])
+const selesais = ref([])
+const changeStatus = (e, id) => {
+    if (selesais.value.length == 0) {
+        selesais.value.push({
+            id: id,
+            status: e.target.checked
+        })
+    } else {
+        let cek = selesais.value.find(item => item.id == id)
+        if (typeof cek != "undefined") {
+            cek.status = e.target.checked
+        } else {
+            selesais.value.push({
+                id: id,
+                status: e.target.checked
+            })
+        }
+    }
 
+    localStorage.setItem('statues', JSON.stringify(selesais.value))
+}
+
+const cekStatus = (id) => {
+
+    if (selesais.value.length > 0) {
+        let cek = selesais.value.find(item => item.id == id)
+        if (typeof cek != 'undefined') {
+            return cek.status
+        }
+    }
+    return false
+    // let statues = JSON.parse(localStorage.getItem('statues'))
+    // if (statues != null) {
+    //     let cek = statues.find(item => item.id == id)
+    //     if (typeof cek != 'undefined') {
+    //         return cek.status
+    //     }
+    // } else {
+    //     let cek = statues.find(item => item.id == id)
+    //     if (typeof cek != 'undefined') {
+    //         return cek.status
+    //     }
+    // }
+    // return false
+}
+onMounted(() => {
+    selesais.value = JSON.parse(localStorage.getItem('statues')) != null ? JSON.parse(localStorage.getItem('statues')) : []
+})
 
 const getFormatDate = (tgl) => {
     let d = new Date(tgl);
@@ -156,12 +208,23 @@ const hapusData = (id, name = "") => {
 </script>
 
 <style scoped>
-#keterangan {
+.selesai {
     background-color: #efe;
     padding: .3rem 1rem;
     border-radius: 0 .5rem .5rem 0;
     margin-top: .5rem;
     border-left: 5px solid green;
+    font-weight: 400;
+    min-width: 100% !important;
+    transition: color 1s;
+}
+
+.belum_selesai {
+    background-color: #eee;
+    padding: .3rem 1rem;
+    border-radius: 0 .5rem .5rem 0;
+    margin-top: .5rem;
+    border-left: 5px solid red;
     font-weight: 400;
     min-width: 100% !important;
     transition: color 1s;
