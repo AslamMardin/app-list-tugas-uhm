@@ -6,8 +6,7 @@
         <div class="card-body w-100" v-else>
             <div class="alert alert-warning">
                 <marquee behavior="">
-                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Kerjai! Jangan
-                    Malas-Malasan! cihhh
+                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Semangat Teman-teman demi tercapai Sarjana Magisternya. Semoga Segala Urusan Lancar Terus. Aamiin...!
                 </marquee>
             </div>
             <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
@@ -46,7 +45,8 @@
 
                         </div>
                         <div :class="cekStatus(item.id) ? 'selesai' : 'belum_selesai'">
-                            <i style="font-size: 14px;">{{ item.keterangan }}</i>
+                            <i style="font-size: 14px;">{{ item.keterangan }}
+                            </i>
                         </div>
                         <div class="form-check form-switch mt-2 d-flex justify-content-between" style="font-size: 12px;">
                             <input @change="changeStatus($event, item.id)" class="form-check-input"
@@ -97,6 +97,8 @@ const changeStatus = (e, id) => {
 
     localStorage.setItem('statues', JSON.stringify(selesais.value))
 }
+
+
 
 const cekStatus = (id) => {
 
