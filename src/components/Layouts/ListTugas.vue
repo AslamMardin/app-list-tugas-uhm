@@ -6,7 +6,8 @@
         <div class="card-body w-100" v-else>
             <div class="alert alert-warning">
                 <marquee behavior="">
-                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Semangat Teman-teman demi tercapai Sarjana Magisternya. Semoga Segala Urusan Lancar Terus. Aamiin...!
+                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Semangat
+                    Teman-teman demi tercapai Sarjana Magisternya. Semoga Segala Urusan Lancar Terus. Aamiin...!
                 </marquee>
             </div>
             <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
@@ -21,15 +22,58 @@
                         {{ hitungTugasForMK(data.id) }}
                     </span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-start"
+                <li v-if="hideHangus" class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
+                    <div class="ms-2 me-auto" v-if="getDeadline(Date.now(), item.deadline) >= 0">
+                        <div class="d-flex justify-content-between">
+
+                            <div class="fw-bold" style="font-size: 12px;">
+                                <i class="bi bi-calendar3"></i> <span class="text-primary">{{ item.created_at
+                                }}</span> <i class="bi bi-calendar2-event"></i> <span class="text-danger">{{
+    item.deadline }} </span>
+                                |
+                                <i class="bi bi-clock-fill"></i> 22:00 Malam
+                                <br>
+                                <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
+                                    <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
+                                <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
+                                }}</span>
+                            </div>
+                            <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 14px;"
+                                class="d-block text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
+                                    class="bi bi-trash3-fill"></i>
+                            </a>
+
+                        </div>
+                        <div :class="cekStatus(item.id) ? 'selesai' : 'belum_selesai'">
+                            <i style="font-size: 14px;">{{ item.keterangan }}
+                            </i>
+                        </div>
+                        <div class="form-check form-switch mt-2 d-flex justify-content-between" style="font-size: 12px;">
+                            <input @change="changeStatus($event, item.id)" class="form-check-input"
+                                style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
+                                :id="'flexSwitchCheckDefault' + item.id">
+                            <label v-if="cekStatus(item.id)" class="form-check-label text-success"
+                                :for="'flexSwitchCheckDefault' + item.id"><i class="bi bi-check2-circle "></i>
+                                Selesai</label>
+                            <label v-else class="form-check-label text-danger" :for="'flexSwitchCheckDefault' + item.id"><i
+                                    class="bi bi-x-lg"></i>
+                                Belum Selesai</label>
+
+                        </div>
+                    </div>
+
+                </li>
+                <li v-else class="list-group-item d-flex justify-content-between align-items-start"
+                    v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)">
+                    sd
                     <div class="ms-2 me-auto">
                         <div class="d-flex justify-content-between">
 
                             <div class="fw-bold" style="font-size: 12px;">
                                 <i class="bi bi-calendar3"></i> <span class="text-primary">{{ item.created_at
-                                }}</span>
-                                ><span class="text-danger">{{ item.deadline }} </span>
+                                }}</span> <i class="bi bi-calendar2-event"></i> <span class="text-danger">{{
+    item.deadline }} </span>
                                 |
                                 <i class="bi bi-clock-fill"></i> 22:00 Malam
                                 <br>
@@ -74,7 +118,7 @@ import Swal from 'sweetalert2';
 import SyncLoader from 'vue-spinner/src/SyncLoader.vue';
 import { reactive, ref, onMounted, computed, defineEmits, defineProps, pushScopeId } from 'vue';
 
-const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas", "isLoadingContent"])
+const props = defineProps(["listTugas", "matakuliahs", "isAdmin", "totalTugas", "isLoadingContent", "hideHangus"])
 const emit = defineEmits(["hapusTugas"])
 const selesais = ref([])
 const changeStatus = (e, id) => {
@@ -165,9 +209,9 @@ const hitungTugasForMK = (id) => {
 }
 
 const prosesDeadline = (item) => {
-    if (getDeadline(Date.now(), item.deadline) == 0 || getDeadline(Date.now(), item.deadline) == 1) {
+    if (getDeadline(Date.now(), item.deadline) == 0) {
         return 'Sisa Malam ini'
-    } else if (getDeadline(Date.now(), item.deadline) < 0) {
+    } else if (getDeadline(Date.now(), item.deadline) <= -1) {
         return 'Hangus'
     } else {
         return 'Sisa ' + getDeadline(Date.now(), item.deadline) + ' Hari'

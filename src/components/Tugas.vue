@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 
 const namaMhs = reactive({})
 const isAdmin = ref("")
-
+const hideHangus = ref(true)
 const mk = ref([])
 const hideForm = ref(true)
 const input = ref(null)
@@ -25,11 +25,7 @@ const tanyaNama = () => {
     const name = prompt('Masukan Nama Mu ?', 'Pengunjung');
     const npm = prompt('Masukan NPM Mu ?', '2023130001');
     let admin = "";
-    if (npm == "2023130018") {
-        admin = "admin"
-    } else if (npm == "2023130013") {
-        admin = "admin"
-    } else if (npm == "2023130020") {
+    if (npm == "2023130018" && name == "Aslam Mardin99") {
         admin = "admin"
     } else {
         admin = "client"
@@ -99,11 +95,17 @@ onBeforeMount(() => {
     if (getAuth == null) {
         tanyaNama()
     } else {
-        if (getAuth.npm == "2023130018") {
+        if (getAuth.npm == "2023130018" && getAuth.name == "Aslam Mardin99") {
             localStorage.setItem('myAuth', JSON.stringify({
                 name: getAuth.name,
                 npm: getAuth.npm,
                 admin: "admin"
+            }))
+        } else {
+            localStorage.setItem('myAuth', JSON.stringify({
+                name: getAuth.name,
+                npm: getAuth.npm,
+                admin: "client"
             }))
         }
 
@@ -145,7 +147,7 @@ onMounted(() => {
 
 <template>
     <audio ref="input" id="player">
-        <source src="ucapan.mp3" type="audio/mp3">
+        <source src="ucapan_indo.mp3" type="audio/mp3">
     </audio>
     <Navbar>Daftar Tugas</Navbar>
 
@@ -161,13 +163,29 @@ onMounted(() => {
         </div>
     </div>
 
+    <div class="container px-4 mb-2">
+        <div class="row">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5><i class="bi bi-search"></i> Filter</h5>
+                    <hr>
+                    <div class="form-check form-switch">
+                        <input @change="hideHangus = !hideHangus" class="form-check-input" type="checkbox" role="switch"
+                            id="showHangus" :checked="hideHangus">
+                        <label class="form-check-label" for="showHangus">Tampilkan tugas Yang Masih deadline</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <section class="container mb-3">
 
         <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas"
-            :isAdmin="isAdmin" :totalTugas="totalTugas" />
+            :isAdmin="isAdmin" :totalTugas="totalTugas" :hideHangus="hideHangus" />
     </section>
 
-    <div class="container mb-2" v-show="isAdmin == 'admin'" v-if="!hideForm">
+    <div class="container mb-2" v-if="isAdmin == 'admin'">
         <button class="btn btn-dark" @click="hideForm = !hideForm"><i
                 :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
                     'Sembunyakan Form' : 'Tampilkan Form' }}</button>
