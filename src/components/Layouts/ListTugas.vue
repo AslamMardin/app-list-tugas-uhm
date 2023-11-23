@@ -66,7 +66,6 @@
                 </li>
                 <li v-else class="list-group-item d-flex justify-content-between align-items-start"
                     v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)">
-                    sd
                     <div class="ms-2 me-auto">
                         <div class="d-flex justify-content-between">
 

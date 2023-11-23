@@ -167,12 +167,13 @@ onMounted(() => {
         <div class="row">
             <div class="card shadow">
                 <div class="card-body">
-                    <h5><i class="bi bi-search"></i> Filter</h5>
+                    <h6><i class="bi bi-search"></i> Filter</h6>
                     <hr>
                     <div class="form-check form-switch">
                         <input @change="hideHangus = !hideHangus" class="form-check-input" type="checkbox" role="switch"
                             id="showHangus" :checked="hideHangus">
-                        <label class="form-check-label" for="showHangus">Tampilkan tugas Yang Masih deadline</label>
+                        <label class="form-check-label" for="showHangus">Tampilkan tugas Yang Masih <span
+                                class="text-success fw-bold">deadline</span></label>
                     </div>
                 </div>
             </div>
