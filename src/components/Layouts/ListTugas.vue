@@ -1,113 +1,139 @@
 <template>
-    <div class="card shadow">
-        <div class="d-flex justify-content-center opacity-50 align-items-center my-5" v-if="props.isLoadingContent">
-            <SyncLoader color="gray" />
-        </div>
-        <div class="card-body w-100" v-else>
-            <div class="alert alert-warning">
-                <marquee behavior="">
-                    <i class=" bi bi-exclamation-triangle-fill"></i> <b>Ada {{ totalTugas }} Tugasta</b>, Semangat
-                    Teman-teman demi tercapai Sarjana Magisternya. Semoga Segala Urusan Lancar Terus. Aamiin...!
-                </marquee>
+    <div class="d-flex justify-content-center opacity-45 align-items-center my-5" v-if="props.isLoadingContent">
+        <SyncLoader color="gray" />
+    </div>
+    <div class="w-100" v-else>
+
+        <div class="d-flex justify-content-between flex-wrap gap-1 align-items-center my-3" id="dhs-counter">
+            <div class="card" style="width:49%; height: 10rem; border-radius: 1rem;"
+                v-for="(data, j) in  props.matakuliahs    " :key="j">
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="counter">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                            <span class="span-counter">{{ hitungTugasForMK(data.id) }}</span>
+                        </div>
+                        <div class="content mt-1">
+                            <b> {{ data.mk }}</b>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3 class="text-center" v-if="props.listTugas.length == 0">Tugas Tidak ada</h3>
-            <ol v-else class="list-group mt-2" v-for="(data, j) in     props.matakuliahs    " :key="j">
-                <li class="list-group-item-primary list-group-item d-flex justify-content-between align-items-start">
-                    <div class="p-1">
-                        <i class="bi bi-pin-fill"></i> {{ data.mk }}
-                        <br>
-                        <i class="bi bi-mortarboard-fill"></i> {{ data.dosen }}
-                    </div>
-                    <span class="badge rounded-pil " :class="hitungTugasForMK(data.id) > 0 ? 'bg-primary' : 'bg-secondary'">
-                        {{ hitungTugasForMK(data.id) }}
-                    </span>
-                </li>
-                <li v-if="hideHangus" class="list-group-item d-flex justify-content-between align-items-start"
-                    v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
-                    <div class="ms-2 me-auto" v-if="getDeadline(Date.now(), item.deadline) >= 0">
-                        <div class="d-flex justify-content-between">
 
-                            <div class="fw-bold" style="font-size: 12px;">
-                                <i class="bi bi-calendar3"></i> <span class="text-primary">{{ item.created_at
-                                }}</span> <i class="bi bi-calendar2-event"></i> <span class="text-danger">{{
-    item.deadline }} </span>
-                                |
-                                <i class="bi bi-clock-fill"></i> 22:00 Malam
-                                <br>
-                                <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
-                                    <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
-                                <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
-                                }}</span>
-                            </div>
-                            <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 14px;"
-                                class="d-block text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
-                                    class="bi bi-trash3-fill"></i>
-                            </a>
-
-                        </div>
-                        <div :class="cekStatus(item.id) ? 'selesai' : 'belum_selesai'">
-                            <i style="font-size: 14px;">{{ item.keterangan }}
-                            </i>
-                        </div>
-                        <div class="form-check form-switch mt-2 d-flex justify-content-between" style="font-size: 12px;">
-                            <input @change="changeStatus($event, item.id)" class="form-check-input"
-                                style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
-                                :id="'flexSwitchCheckDefault' + item.id">
-                            <label v-if="cekStatus(item.id)" class="form-check-label text-success"
-                                :for="'flexSwitchCheckDefault' + item.id"><i class="bi bi-check2-circle "></i>
-                                Selesai</label>
-                            <label v-else class="form-check-label text-danger" :for="'flexSwitchCheckDefault' + item.id"><i
-                                    class="bi bi-x-lg"></i>
-                                Belum Selesai</label>
-
-                        </div>
-                    </div>
-
-                </li>
-                <li v-else class="list-group-item d-flex justify-content-between align-items-start"
-                    v-for="(item, i) in     props.listTugas.filter(tgs => tgs.mk_id == data.id)">
-                    <div class="ms-2 me-auto">
-                        <div class="d-flex justify-content-between">
-
-                            <div class="fw-bold" style="font-size: 12px;">
-                                <i class="bi bi-calendar3"></i> <span class="text-primary">{{ item.created_at
-                                }}</span> <i class="bi bi-calendar2-event"></i> <span class="text-danger">{{
-    item.deadline }} </span>
-                                |
-                                <i class="bi bi-clock-fill"></i> 22:00 Malam
-                                <br>
-                                <span class="badge rounded-pill mb-1 badge-l" :class="warnaDeadline(item)">
-                                    <i class="bi bi-alarm"></i> {{ prosesDeadline(item) }}</span>
-                                <span class="badge bg-dark badge-r "> <i :class="statusTugas(item)"></i> {{ item.status
-                                }}</span>
-                            </div>
-                            <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 14px;"
-                                class="d-block text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
-                                    class="bi bi-trash3-fill"></i>
-                            </a>
-
-                        </div>
-                        <div :class="cekStatus(item.id) ? 'selesai' : 'belum_selesai'">
-                            <i style="font-size: 14px;">{{ item.keterangan }}
-                            </i>
-                        </div>
-                        <div class="form-check form-switch mt-2 d-flex justify-content-between" style="font-size: 12px;">
-                            <input @change="changeStatus($event, item.id)" class="form-check-input"
-                                style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
-                                :id="'flexSwitchCheckDefault' + item.id">
-                            <label v-if="cekStatus(item.id)" class="form-check-label text-success"
-                                :for="'flexSwitchCheckDefault' + item.id"><i class="bi bi-check2-circle "></i>
-                                Selesai</label>
-                            <label v-else class="form-check-label text-danger" :for="'flexSwitchCheckDefault' + item.id"><i
-                                    class="bi bi-x-lg"></i>
-                                Belum Selesai</label>
-
-                        </div>
-                    </div>
-
-                </li>
-            </ol>
         </div>
+        <!-- list baru -->
+        <div v-if="props.listTugas.length > 0" class="card listTugas" v-for="(data, j) in     props.matakuliahs" :key="j">
+            <div class="card-body">
+                <div class="profile-dosen d-flex justify-content-between align-items-center">
+                    <i class="bi bi-person-workspace"></i>
+                    <div class="content-dosen">
+                        <h5>{{ data.dosen }}</h5>
+                        <h6>{{ data.mk }}</h6>
+                    </div>
+                </div>
+                <div v-if="hideHangus" class="card card-list"
+                    v-for="(item, i) in  props.listTugas.filter(tgs => tgs.mk_id == data.id)    " :key="i">
+                    <div v-if="getDeadline(Date.now(), item.deadline) >= 0" class="card-body list-message">
+                        <div class="title-message">
+                            <div class="tgl-left">
+                                <i class="bi bi-calendar-plus-fill"></i>
+                                {{ item.created_at }}
+                                <i class="bi bi-calendar-check-fill"></i>
+                                {{ item.deadline }}
+                            </div>
+                            <div class="deadline" :class="warnaDeadline(item)">
+                                {{ prosesDeadline(item) }}
+                            </div>
+                        </div>
+                        <div class="body-message">
+                            {{ item.keterangan }}
+                            <span class="badge-status" v-show="cekStatus(item.id)"><i class="bi bi-check2-all"></i></span>
+                        </div>
+                        <div class="footer-message d-flex justify-content-between align-items-center">
+                            <div class="footer-message-info">
+                                <span class="badge bg-dark" style="border-radius: .5rem 0 0 .5rem;">{{ item.status
+                                }}</span>
+
+                                <!-- opsi ubah status -->
+                                <input @change="changeStatus($event, item.id)" class="form-check-input"
+                                    style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
+                                    :id="'flexSwitchCheckDefault' + item.id">
+
+                                <label v-if="cekStatus(item.id)" style="margin-left: -1rem; border-radius: 0 .5rem .5rem 0;"
+                                    class="badge bg-success" :for="'flexSwitchCheckDefault' + item.id">
+                                    Selesai</label>
+                                <label v-else style="margin-left: -1rem; border-radius: 0 .5rem .5rem 0;"
+                                    class="badge bg-danger" :for="'flexSwitchCheckDefault' + item.id">
+                                    Belum Selesai</label>
+                                <!-- end opsi ubah status -->
+                            </div>
+
+                            <div class="footer-message-aksi">
+                                <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 18px;"
+                                    class="text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
+                                        class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div v-else class="card card-list"
+                    v-for="(item, i) in  props.listTugas.filter(tgs => tgs.mk_id == data.id)">
+                    <div class="card-body list-message">
+                        <div class="title-message">
+                            <div class="tgl-left">
+                                <i class="bi bi-calendar-plus-fill"></i>
+                                {{ item.created_at }}
+                                <i class="bi bi-calendar-check-fill"></i>
+                                {{ item.deadline }}
+                            </div>
+                            <div class="deadline" :class="warnaDeadline(item)">
+                                {{ prosesDeadline(item) }}
+                            </div>
+                        </div>
+                        <div class="body-message">
+                            {{ item.keterangan }}
+                            <span class="badge-status" v-show="cekStatus(item.id)"><i class="bi bi-check2-all"></i></span>
+                        </div>
+                        <div class="footer-message d-flex justify-content-between align-items-center">
+                            <div class="footer-message-info">
+                                <span class="badge bg-dark" style="border-radius: .5rem 0 0 .5rem;">{{ item.status
+                                }}</span>
+
+                                <!-- opsi ubah status -->
+                                <input @change="changeStatus($event, item.id)" class="form-check-input"
+                                    style="visibility: hidden;" type="checkbox" :checked="cekStatus(item.id)" role="switch"
+                                    :id="'flexSwitchCheckDefault' + item.id">
+
+                                <label v-if="cekStatus(item.id)" style="margin-left: -1rem; border-radius: 0 .5rem .5rem 0;"
+                                    class="badge bg-success" :for="'flexSwitchCheckDefault' + item.id">
+                                    Selesai</label>
+                                <label v-else style="margin-left: -1rem; border-radius: 0 .5rem .5rem 0;"
+                                    class="badge bg-danger" :for="'flexSwitchCheckDefault' + item.id">
+                                    Belum Selesai</label>
+                                <!-- end opsi ubah status -->
+                            </div>
+
+                            <div class="footer-message-aksi">
+                                <a v-if="isAdmin == 'admin'" style="cursor: pointer;font-size: 18px;"
+                                    class="text-danger mr-1" @click.prevent="hapusData(item.id, item.keterangan)"><i
+                                        class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div v-else class="notFound">
+            <span>Data Tidak Ada</span>
+        </div>
+
+        <!-- ./ list baru -->
     </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
-    <div class="card shadow">
-        <div class="card-body">
-
-            <p><i class="bi bi-person-circle"></i> : {{ data.name }} <b>({{ data.npm }})</b>.
-            </p>
-
-        </div>
+    <div class="d-flex justify-content-center align-items-center gap-4 ">
+        <i class="bi bi-person-circle icon-utama"></i>
+        <p>
+            {{ data.name }}
+            <br>
+            {{ data.npm }}
+        </p>
     </div>
 </template>
 

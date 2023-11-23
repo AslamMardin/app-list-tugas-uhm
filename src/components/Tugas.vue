@@ -6,6 +6,7 @@ import NamePlace from './Layouts/NamePlace.vue';
 import Footer from './Layouts/Footer.vue'
 import ListTugas from './Layouts/ListTugas.vue'
 import FormTugas from './Layouts/FormTugas.vue';
+import MenuFooter from './Layouts/MenuFooter.vue';
 
 import api from '../api';
 import { reactive, ref, onMounted, onBeforeMount } from 'vue';
@@ -151,16 +152,26 @@ onMounted(() => {
     </audio>
     <Navbar>Daftar Tugas</Navbar>
 
-    <div class="row mt-5 mb-2">
-        <div class="col-12">
-            <img src="logo-uhm.png" alt="Logo UHM" class="img-fluid">
-        </div>
-    </div>
-
-    <div class="container px-4 mb-2">
+    <div class="container px-4 my-4" id="cardNama">
         <div class="row">
             <NamePlace :data="namaMhs"></NamePlace>
         </div>
+    </div>
+
+
+    <section class="container mb-3">
+
+        <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas"
+            :isAdmin="isAdmin" :hideHangus="hideHangus" />
+    </section>
+
+    <div class="container mb-2" v-if="isAdmin == 'admin'">
+        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
+                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
+                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
+    </div>
+    <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
+        <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
     </div>
 
     <div class="container px-4 mb-2">
@@ -180,20 +191,8 @@ onMounted(() => {
         </div>
     </div>
 
-    <section class="container mb-3">
-
-        <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas"
-            :isAdmin="isAdmin" :totalTugas="totalTugas" :hideHangus="hideHangus" />
-    </section>
-
-    <div class="container mb-2" v-if="isAdmin == 'admin'">
-        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
-                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
-                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
-    </div>
-    <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
-        <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
-    </div>
 
     <Footer></Footer>
+    <MenuFooter></MenuFooter>
 </template>
+

@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,700;0,900;1,400;1,900&display=swap');
+
+
+:root {
+    --primary: #FFD700;
+    --white: #fff
+}
+
+body {
+    background-color: var(--primary);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+}
+
+#top-nav {
+    background-color: white !important;
+    border-radius: 0 0 2rem 2rem;
+}
+
+#top-nav span {
+    width: 100%;
+    text-align: center !important;
+    color: #000 !important;
+    font-weight: 700;
+}
+
+#cardNama {
+    color: white;
+    font-weight: 900;
+    text-align: center;
+}
+
+#cardNama .icon-utama {
+    font-size: 4rem;
+    padding-right: 1.5rem;
+    border-right: 2px dashed #fff;
+}
+
+#cardNama p {
+    text-align: left;
+}
+
+
+
+
+#dhs-counter .card-body {
+    text-align: center;
+    padding: .5rem !important;
+    position: relative;
+    max-height: fit-content;
+}
+
+#dhs-counter .card-content {
+    z-index: 20;
+}
+
+#dhs-counter .card-body::before {
+    content: "";
+    position: absolute;
+    width: 30%;
+    height: 70%;
+    background: url('../public/icon-buku.png');
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    left: 5%;
+    top: -10%;
+    z-index: 1;
+    opacity: .2;
+}
+
+#dhs-counter .counter {
+    position: relative;
+}
+
+#dhs-counter .counter i {
+    font-size: 3rem !important;
+    font-weight: 700;
+    margin: 0;
+}
+
+#dhs-counter .span-counter {
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--primary);
+    width: 1.5rem;
+    color: var(--white);
+    right: 2.5rem;
+}
+
+#dhs-counter .content {
+    font-size: 16px;
+}
+
+
+.listTugas {
+    box-sizing: border-box;
+    background-color: #fff;
+    border-radius: 0;
+}
+
+.listTugas .profile-dosen {
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+.listTugas:nth-child(2) {
+    border-radius: 2rem 2rem 0 0;
+    padding-top: 1rem;
+}
+
+.listTugas:nth-child(7) {
+    border-radius: 0 0 2rem 2rem;
+    padding-bottom: 1rem;
+}
+
+.listTugas .profile-dosen>i {
+    font-size: 2rem;
+    padding: .1rem .5rem;
+    background-color: var(--primary);
+    opacity: .8;
+    color: #000;
+    border-radius: .5rem;
+}
+
+.listTugas .content-dosen h5,
+.listTugas .content-dosen h6 {
+    margin: 0;
+    text-align: right;
+}
+
+.listTugas .content-dosen h5 {
+    font-weight: 700;
+    font-size: .9rem;
+}
+
+.listTugas .card-list {
+    width: 100%;
+    margin-top: .5rem;
+}
+
+.listTugas .list-message {
+    position: relative;
+    border-left: .3rem solid var(--primary);
+}
+
+.listTugas .title-message {
+    font-size: 16px;
+}
+
+.listTugas .body-message {
+    width: 100%;
+    background-color: #EEEEEE;
+    padding: .3rem .5rem;
+    margin: .5rem 0;
+}
+
+.listTugas .badge-status {
+    color: #fff;
+    background-color: green;
+    padding: .1rem .3rem;
+    border-radius: .2rem;
+}
+
+.listTugas .deadline {
+    position: absolute;
+    right: 0;
+    top: 0%;
+    transform: translateY(-50%);
+    height: 2rem;
+    width: 8rem;
+    background-color: var(--primary);
+    color: #ffffff;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: .5rem;
+    font-size: 18px;
+}
+
+.notFound span {
+    text-align: center;
+    display: block;
+    font-size: 3rem;
+    color: #EEEEEE;
+}
+
+#menu-footer {
+    background-color: #222831 !important;
+    color: #fff;
+    font-weight: 500;
+}
+
+#menu-footer i,
+#menu-footer svg {
+    font-size: 1.5rem;
+}
