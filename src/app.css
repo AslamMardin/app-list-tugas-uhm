@@ -18,43 +18,6 @@ body {
 }
 
 
-#top-nav>.titik-left {
-    position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    left: 1rem;
-    top: .5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: var(--primary);
-}
-
-#top-nav>.titik-right {
-    position: absolute;
-    width: 1.5rem;
-    height: 1.5rem;
-    right: 1rem;
-    top: .5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: var(--primary);
-}
-
-#top-nav>.titik-left::before,
-#top-nav>.titik-right::before {
-    content: "";
-    position: absolute;
-    width: .9rem;
-    height: .9rem;
-    background-color: #fff;
-    border-radius: 50%;
-}
-
-
 
 #top-nav .container-fluid>span {
     width: 100%;
@@ -153,6 +116,11 @@ body {
 
 #dhs-counter .content {
     font-size: 16px;
+}
+
+#dhs-counter .content a {
+    text-decoration: none;
+    color: #000;
 }
 
 

@@ -14,7 +14,9 @@
                             <span class="span-counter">{{ hitungTugasForMK(data.id) }}</span>
                         </div>
                         <div class="content mt-1">
-                            <b> {{ data.mk }}</b>
+                            <b>
+                                <a :href="'#' + data.mk">{{ data.mk }}</a>
+                            </b>
                         </div>
                     </div>
                 </div>
@@ -23,7 +25,7 @@
         </div>
         <!-- list baru -->
         <div v-if="props.listTugas.length > 0" class="card listTugas" v-for="(data, j) in     props.matakuliahs" :key="j">
-            <div class="card-body">
+            <div class="card-body" :id="data.mk">
                 <div class="profile-dosen d-flex justify-content-between align-items-center">
                     <i class="bi bi-person-workspace"></i>
                     <div class="content-dosen">
@@ -45,7 +47,7 @@
                                 {{ prosesDeadline(item) }}
                             </div>
                         </div>
-                        <div class="body-message">
+                        <div class="body-message" :class="cekStatus(item.id) ? 'selesai' : ''">
                             {{ item.keterangan }}
                             <span class="badge-status" v-show="cekStatus(item.id)"><i class="bi bi-check2-all"></i></span>
                         </div>
@@ -93,7 +95,7 @@
                                 {{ prosesDeadline(item) }}
                             </div>
                         </div>
-                        <div class="body-message">
+                        <div class="body-message" :class="cekStatus(item.id) ? 'selesai' : ''">
                             {{ item.keterangan }}
                             <span class="badge-status" v-show="cekStatus(item.id)"><i class="bi bi-check2-all"></i></span>
                         </div>
@@ -280,7 +282,7 @@ const hapusData = (id, name = "") => {
 
 <style scoped>
 .selesai {
-    background-color: #efe;
+    background-color: #C7DCA7 !important;
     padding: .3rem 1rem;
     border-radius: 0 .5rem .5rem 0;
     margin-top: .5rem;

@@ -60,7 +60,7 @@
                 </a>
             </li>
             <li class="nav-item" alt="Pencipta">
-                <a href="https://aslammardin.github.io/profile/" class="nav-link">
+                <a target="_blank" href="https://aslammardin.github.io/profile/" class="nav-link">
                     <i class="bi bi-github"></i>
                 </a>
             </li>
