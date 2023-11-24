@@ -46,12 +46,12 @@
         <ul class="navbar-nav nav-justified w-100">
             <li class="nav-item" alt="Home">
                 <a href="#" class="nav-link">
-                    <i class="bi bi-person-vcard"></i>
+                    <i class="bi bi-house-check"></i>
                 </a>
             </li>
-            <li class="nav-item" alt="Indentitas">
+            <li class="nav-item" alt="Login">
                 <a href="#" class="nav-link">
-                    <i class="bi bi-search"></i>
+                    <i class="bi bi-shield-lock"></i>
                 </a>
             </li>
             <li class="nav-item notMenu">
@@ -60,11 +60,11 @@
                 </a>
             </li>
             <li class="nav-item" alt="Pencipta">
-                <a href="https://aslammardin.github.io" class="nav-link">
+                <a href="https://aslammardin.github.io/profile/" class="nav-link">
                     <i class="bi bi-github"></i>
                 </a>
             </li>
-            <li class="nav-item" alt="Informasi">
+            <li class="nav-item" alt="Tutorial">
                 <a href="#" class="nav-link">
                     <i class="bi bi-info-circle"></i>
                 </a>
