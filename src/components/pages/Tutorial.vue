@@ -5,11 +5,11 @@
                 <div class="card mt-5">
                     <span class="card-title">Tutorial</span>
                     <div class="card-body">
-                        <h6><b>1. cara Melihat Tugas lama ?</b></h6>
+                        <h6><b>1. cara melihat tugas lama ?</b></h6>
                         <p style="text-align: justify;">Caranya dengan mengklik ini menjadi disable (non aktif) maka akan
                             memunculkan tugas yang lama,
                             untuk lebih lengkapnya lihat gambar berikut ini</p>
-                        <img src="search.png" alt="">
+                        <img src="gambar-search.PNG" alt="">
 
                         <h6><b>2. cara menandai tugas yang sudah kita selesaikan ?</b></h6>
                         <p style="text-align: justify;">Caranya dengan mengklik tombol ini yang sudah saya tandai secara
@@ -18,8 +18,8 @@
                             <b>selesai</b> atau <b>belum selesai</b>. untuk lebih lengkapnya lihat gambar
                             dibawah ini
                         </p>
-                        <img src="status_sebelum.png" alt="">
-                        <img src="status_setela.png" alt="">
+                        <img src="gambar-status-sebelum.PNG" alt="">
+                        <img src="gambar-status-setelah.PNG" alt="">
 
                         <p>Semoga Berhasil!</p>
                     </div>
@@ -35,8 +35,13 @@
 .card {
     padding-top: 3rem;
     animation: animTop .3s ease-in;
+    box-sizing: border-box;
+    margin-bottom: 8rem;
 }
 
+img {
+    width: 100%;
+}
 
 .card-title {
     position: absolute;

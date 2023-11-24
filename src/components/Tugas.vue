@@ -125,19 +125,19 @@ onMounted(() => {
         isLoadingContent.value = false
         getApiTugas()
         getMatakuliah()
-        Swal.fire({
-            title: 'TUGAS UHM 2023',
-            text: "Mahasiswa dikenali",
-            icon: 'success',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ok, Liat Tugas!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                play()
-            }
-        })
+        // Swal.fire({
+        //     title: 'TUGAS UHM 2023',
+        //     text: "Mahasiswa dikenali",
+        //     icon: 'success',
+        //     showCancelButton: false,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Ok, Liat Tugas!'
+        // }).then((result) => {
+        //     if (result.isConfirmed) {
+        //         play()
+        //     }
+        // })
     }, 2000)
 
 
@@ -162,7 +162,7 @@ const _hideForm = () => {
 
 <template>
     <audio ref="input" id="player">
-        <source src="ucapan_korea.mp3" type="audio/mp3">
+        <source src="ucapan_indo.mp3" type="audio/mp3">
     </audio>
     <Navbar>Daftar Tugas S2</Navbar>
 

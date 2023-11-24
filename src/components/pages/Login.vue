@@ -6,11 +6,16 @@
                     <span class="card-title">Login</span>
                     <div class="card-body">
                         <img src="gambar-login.png" alt="">
-                        <form action="">
+
+                        <div v-if="pesan.length > 0" class="alert alert-danger mt-2">
+                            {{ pesan }}
+                        </div>
+                        <form @submit.prevent="_prosesLogin">
                             <div class="mb-3">
                                 <label for="kata_sandi" class="form-label text-center d-block">Kata Sandi</label>
                                 <div class="position-relative">
-                                    <input :type="typeInput" class="form-control" id="kata_sandi" placeholder="****">
+                                    <input v-model="pass" :type="typeInput" class="form-control" id="kata_sandi"
+                                        placeholder="****">
                                     <span id="btn-show" @click="_showHidePassword">
                                         <i class="bi"
                                             :class="typeInput == 'password' ? 'bi-eye-fill' : 'bi-eye-slash-fill'"></i>
@@ -19,6 +24,7 @@
                             </div>
                             <button type="submit" class="btn"><i class="bi bi-unlock-fill"></i> Login</button>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -28,13 +34,22 @@
 <script setup>
 import { ref } from 'vue';
 const typeInput = ref("password")
-
+const pass = ref("")
+const pesan = ref("")
 const _showHidePassword = () => {
     if (typeInput.value == 'text') {
         typeInput.value = 'password'
     } else {
         typeInput.value = 'text'
     }
+}
+
+const _prosesLogin = () => {
+    if (pass.value != '995899556060') {
+        pesan.value = "Kata Sandi Salah, Coba Lagi!"
+        return false
+    }
+    alert('berhasil')
 }
 </script>
 <style scoped>
@@ -53,6 +68,10 @@ const _showHidePassword = () => {
     padding: .3rem 5rem;
     font-size: 1.3rem;
     border-radius: 10px
+}
+
+#login {
+    margin-bottom: 8rem;
 }
 
 #login label {
