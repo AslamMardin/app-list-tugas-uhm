@@ -143,6 +143,20 @@ onMounted(() => {
 
 })
 
+const _hideForm = () => {
+    if (isAdmin.value != 'admin') {
+        Swal.fire({
+            title: 'TUGAS UHM 2023',
+            text: "Maaf, Anda Bukan admin. silahkan hubungin pak aslam!",
+            icon: 'warning',
+
+        })
+        return false
+    }
+    hideForm.value = false
+
+}
+
 </script>
 
 
@@ -150,13 +164,28 @@ onMounted(() => {
     <audio ref="input" id="player">
         <source src="ucapan_indo.mp3" type="audio/mp3">
     </audio>
-    <Navbar>Daftar Tugas</Navbar>
+    <Navbar>Daftar Tugas S2</Navbar>
 
     <div class="container px-4 my-4" id="cardNama">
         <div class="row">
             <NamePlace :data="namaMhs"></NamePlace>
         </div>
     </div>
+
+    <div class="container px-4 mb-2" id="filter">
+        <div class="row">
+            <div class="card" style="border-radius: 1.5rem;">
+                <div class="card-body">
+                    <div class="form-check form-switch">
+                        <input @change="hideHangus = !hideHangus" class="form-check-input" type="checkbox" role="switch"
+                            id="showHangus" :checked="hideHangus">
+                        <label class="form-check-label" for="showHangus">Tugas yang belum Expired saja!</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <section class="container mb-3">
@@ -165,34 +194,17 @@ onMounted(() => {
             :isAdmin="isAdmin" :hideHangus="hideHangus" />
     </section>
 
-    <div class="container mb-2" v-if="isAdmin == 'admin'">
-        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
-                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
-                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
-    </div>
+    <!-- <div class="container mb-2" v-if="isAdmin == 'admin'">
+                                                        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
+                                                                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
+                                                                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
+                                                    </div> -->
     <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
-        <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
-    </div>
-
-    <div class="container px-4 mb-2">
-        <div class="row">
-            <div class="card shadow">
-                <div class="card-body">
-                    <h6><i class="bi bi-search"></i> Filter</h6>
-                    <hr>
-                    <div class="form-check form-switch">
-                        <input @change="hideHangus = !hideHangus" class="form-check-input" type="checkbox" role="switch"
-                            id="showHangus" :checked="hideHangus">
-                        <label class="form-check-label" for="showHangus">Tampilkan tugas Yang Masih <span
-                                class="text-success fw-bold">deadline</span></label>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <FormTugas :matakuliahs="mk" @getTugas="getTugas" @hideForm="hideForm = true" />
     </div>
 
 
     <Footer></Footer>
-    <MenuFooter></MenuFooter>
+    <MenuFooter @hideForm="_hideForm"></MenuFooter>
 </template>
 

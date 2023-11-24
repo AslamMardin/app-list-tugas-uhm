@@ -1,5 +1,46 @@
+<style scoped>
+.card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    width: 100%;
+    animation: animFade .5s ease-in;
+}
+
+@keyframes animeFade {
+    from {
+        transform: scale(0);
+    }
+
+    to {
+        transform: scale(1);
+    }
+}
+
+.shadow-modal {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .9);
+}
+
+.tutup-modal {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 2rem;
+}
+</style>
+
 <template>
-    <div class="card shadow">
+    <div class="shadow-modal"></div>
+    <div class="card">
         <div class="card-body">
             <p>Masukan Tugas Baru</p>
             <form @submit.prevent="tambahTugas">
@@ -37,6 +78,9 @@
                     'Tambah' }}</button>
             </form>
         </div>
+        <div class="card-footer">
+            <span class="tutup-modal" @click="emit('hideForm')">x</span>
+        </div>
     </div>
 </template>
 
@@ -45,7 +89,7 @@ import { reactive, ref, watch, computed, defineEmits, defineProps } from 'vue';
 import Api from '../../api';
 import Swal from 'sweetalert2';
 const props = defineProps(['matakuliahs'])
-const emit = defineEmits(["getTugas"])
+const emit = defineEmits(["getTugas", "hideForm"])
 const isLoading = ref(false)
 const forms = reactive({
     mk: 0,
@@ -135,3 +179,4 @@ const tambahTugas = () => {
 }
 
 </script>
+

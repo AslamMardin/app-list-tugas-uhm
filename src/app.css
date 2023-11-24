@@ -17,7 +17,46 @@ body {
     border-radius: 0 0 2rem 2rem;
 }
 
-#top-nav span {
+
+#top-nav>.titik-left {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    left: 1rem;
+    top: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--primary);
+}
+
+#top-nav>.titik-right {
+    position: absolute;
+    width: 1.5rem;
+    height: 1.5rem;
+    right: 1rem;
+    top: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--primary);
+}
+
+#top-nav>.titik-left::before,
+#top-nav>.titik-right::before {
+    content: "";
+    position: absolute;
+    width: .9rem;
+    height: .9rem;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+
+
+#top-nav .container-fluid>span {
     width: 100%;
     text-align: center !important;
     color: #000 !important;
@@ -28,6 +67,7 @@ body {
     color: white;
     font-weight: 900;
     text-align: center;
+    animation: animFade .5s ease-in-out;
 }
 
 #cardNama .icon-utama {
@@ -40,6 +80,29 @@ body {
     text-align: left;
 }
 
+@keyframes animFade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes animTop {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+#filter {
+    animation: animTop .5s ease-in-out;
+}
 
 
 
@@ -84,7 +147,7 @@ body {
     border-radius: 50%;
     background-color: var(--primary);
     width: 1.5rem;
-    color: var(--white);
+    color: #000;
     right: 2.5rem;
 }
 
@@ -193,7 +256,6 @@ body {
     font-weight: 500;
 }
 
-#menu-footer i,
-#menu-footer svg {
+#menu-footer i {
     font-size: 1.5rem;
 }
