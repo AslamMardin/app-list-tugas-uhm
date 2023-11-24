@@ -15,7 +15,7 @@
                         </div>
                         <div class="content mt-1">
                             <b>
-                                <a :href="'#' + data.mk">{{ data.mk }}</a>
+                                {{ data.mk }}
                             </b>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
         </div>
         <!-- list baru -->
         <div v-if="props.listTugas.length > 0" class="card listTugas" v-for="(data, j) in     props.matakuliahs" :key="j">
-            <div class="card-body" :id="data.mk">
+            <div class="card-body">
                 <div class="profile-dosen d-flex justify-content-between align-items-center">
                     <i class="bi bi-person-workspace"></i>
                     <div class="content-dosen">

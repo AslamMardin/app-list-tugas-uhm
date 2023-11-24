@@ -185,6 +185,7 @@ body {
     background-color: #EEEEEE;
     padding: .3rem .5rem;
     margin: .5rem 0;
+    font-weight: 500;
 }
 
 .listTugas .badge-status {

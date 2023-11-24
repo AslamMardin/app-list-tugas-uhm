@@ -162,7 +162,7 @@ const _hideForm = () => {
 
 <template>
     <audio ref="input" id="player">
-        <source src="ucapan_indo.mp3" type="audio/mp3">
+        <source src="ucapan_korea.mp3" type="audio/mp3">
     </audio>
     <Navbar>Daftar Tugas S2</Navbar>
 
@@ -194,17 +194,16 @@ const _hideForm = () => {
             :isAdmin="isAdmin" :hideHangus="hideHangus" />
     </section>
 
-    <!-- <div class="container mb-2" v-if="isAdmin == 'admin'">
-                                                        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
-                                                                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
-                                                                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
-                                                    </div> -->
+    <div class="container mb-2" v-if="isAdmin == 'admin'">
+        <button class="btn btn-dark" @click="hideForm = !hideForm"><i
+                :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
+                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
+    </div>
     <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
         <FormTugas :matakuliahs="mk" @getTugas="getTugas" @hideForm="hideForm = true" />
     </div>
 
 
     <Footer></Footer>
-    <MenuFooter @hideForm="_hideForm"></MenuFooter>
 </template>
 

@@ -39,35 +39,59 @@
     left: 50%;
     transform: rotate(45deg) translateX(-50%);
 }
+
+.active {
+    position: relative;
+}
+
+.active i {
+    color: #222831;
+}
+
+.active::before {
+    content: "";
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    background-color: #FFF7D4;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    border-radius: 50%;
+}
 </style>
 <template>
     <!-- Bottom Navbar -->
     <nav class="navbar navbar-dark bg-info navbar-expand fixed-bottom d-md-none d-lg-none d-xl-none" id="menu-footer">
         <ul class="navbar-nav nav-justified w-100">
             <li class="nav-item" alt="Home">
-                <a href="#" class="nav-link">
+                <router-link :to="{ name: 'home' }" @click="active = 'home'" class="nav-link"
+                    :class="{ 'active': active == 'home' }">
                     <i class="bi bi-house-check"></i>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item" alt="Login">
-                <a href="#" class="nav-link">
+                <router-link :to="{ name: 'login' }" @click="active = 'login'" class="nav-link"
+                    :class="{ 'active': active == 'login' }">
                     <i class="bi bi-shield-lock"></i>
-                </a>
+                </router-link>
             </li>
-            <li class="nav-item notMenu">
-                <a href=" #" class="nav-link" @click.prevent="emit('hideForm')">
-                    <i class="bi bi-plus-circle"></i>
-                </a>
-            </li>
+            <!-- <li class="nav-item notMenu">
+                                                                                                                                                    <a href=" #" class="nav-link">
+                                                                                                                                                        <i class=" bi bi-plus-circle"></i>
+                                                                                                                                                    </a>
+                                                                                                                                                </li> -->
             <li class="nav-item" alt="Pencipta">
                 <a target="_blank" href="https://aslammardin.github.io/profile/" class="nav-link">
                     <i class="bi bi-github"></i>
                 </a>
             </li>
             <li class="nav-item" alt="Tutorial">
-                <a href="#" class="nav-link">
+                <router-link :to="{ name: 'tutorial' }" @click="active = 'tutorial'" class="nav-link"
+                    :class="{ 'active': active == 'tutorial' }">
                     <i class="bi bi-info-circle"></i>
-                </a>
+                </router-link>
             </li>
 
         </ul>
@@ -75,7 +99,8 @@
 </template>
 
 <script setup>
-
-const emit = defineEmits(['hideForm'])
+import { ref } from 'vue'
+// const emit = defineEmits(['hideForm'])
+const active = ref(null)
 
 </script>

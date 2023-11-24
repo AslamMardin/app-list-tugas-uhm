@@ -1,5 +1,5 @@
 <style scoped>
-.card {
+/* .card {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -35,7 +35,7 @@
     right: 1rem;
     cursor: pointer;
     font-size: 2rem;
-}
+} */
 </style>
 
 <template>
