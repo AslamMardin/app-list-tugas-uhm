@@ -78,10 +78,10 @@
                 </router-link>
             </li>
             <!-- <li class="nav-item notMenu">
-                                                                                                                                                    <a href=" #" class="nav-link">
-                                                                                                                                                        <i class=" bi bi-plus-circle"></i>
-                                                                                                                                                    </a>
-                                                                                                                                                </li> -->
+                                                                                                                                                        <a href=" #" class="nav-link">
+                                                                                                                                                            <i class=" bi bi-plus-circle"></i>
+                                                                                                                                                        </a>
+                                                                                                                                                    </li> -->
             <li class="nav-item" alt="Pencipta">
                 <a target="_blank" href="https://aslammardin.github.io/profile/" class="nav-link">
                     <i class="bi bi-github"></i>

@@ -125,19 +125,19 @@ onMounted(() => {
         isLoadingContent.value = false
         getApiTugas()
         getMatakuliah()
-        // Swal.fire({
-        //     title: 'TUGAS UHM 2023',
-        //     text: "Mahasiswa dikenali",
-        //     icon: 'success',
-        //     showCancelButton: false,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Ok, Liat Tugas!'
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         play()
-        //     }
-        // })
+        Swal.fire({
+            title: 'TUGAS UHM 2023',
+            text: "Mahasiswa dikenali",
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ok, Liat Tugas!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                play()
+            }
+        })
     }, 2000)
 
 
@@ -156,6 +156,8 @@ const _hideForm = () => {
     hideForm.value = false
 
 }
+
+
 
 </script>
 
@@ -200,10 +202,11 @@ const _hideForm = () => {
                     'Sembunyakan Form' : 'Tampilkan Form' }}</button>
     </div>
     <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
-        <FormTugas :matakuliahs="mk" @getTugas="getTugas" @hideForm="hideForm = true" />
+        <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
     </div>
 
 
-    <Footer></Footer>
-</template>
+    <Footer> </Footer>
+</template >
 
+    

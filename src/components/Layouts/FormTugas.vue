@@ -78,9 +78,7 @@
                     'Tambah' }}</button>
             </form>
         </div>
-        <div class="card-footer">
-            <span class="tutup-modal" @click="emit('hideForm')">x</span>
-        </div>
+
     </div>
 </template>
 
@@ -89,7 +87,7 @@ import { reactive, ref, watch, computed, defineEmits, defineProps } from 'vue';
 import Api from '../../api';
 import Swal from 'sweetalert2';
 const props = defineProps(['matakuliahs'])
-const emit = defineEmits(["getTugas", "hideForm"])
+const emit = defineEmits(["getTugas"])
 const isLoading = ref(false)
 const forms = reactive({
     mk: 0,
