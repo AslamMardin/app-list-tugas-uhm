@@ -126,8 +126,8 @@ onMounted(() => {
         getApiTugas()
         getMatakuliah()
         Swal.fire({
-            title: 'TUGAS UHM 2023',
-            text: "Mahasiswa dikenali",
+            title: 'TUGAS UHM 2024',
+            text: "Yang penting Pasal 1!!",
             icon: 'success',
             showCancelButton: false,
             confirmButtonColor: '#3085d6',
@@ -146,7 +146,7 @@ onMounted(() => {
 const _hideForm = () => {
     if (isAdmin.value != 'admin') {
         Swal.fire({
-            title: 'TUGAS UHM 2023',
+            title: 'TUGAS UHM 2024',
             text: "Maaf, Anda Bukan admin. silahkan hubungin pak aslam!",
             icon: 'warning',
 
@@ -192,14 +192,14 @@ const _hideForm = () => {
 
     <section class="container mb-3">
 
-        <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk" @hapusTugas="hapusTugas"
-            :isAdmin="isAdmin" :hideHangus="hideHangus" />
+        <ListTugas :isLoadingContent="isLoadingContent" :listTugas="listTugas" :matakuliahs="mk"
+            @hapusTugas="hapusTugas" :isAdmin="isAdmin" :hideHangus="hideHangus" />
     </section>
 
     <div class="container mb-2" v-if="isAdmin == 'admin'">
         <button class="btn btn-dark" @click="hideForm = !hideForm"><i
                 :class="!hideForm == true ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"></i> {{ !hideForm == true ?
-                    'Sembunyakan Form' : 'Tampilkan Form' }}</button>
+                'Sembunyakan Form' : 'Tampilkan Form' }}</button>
     </div>
     <div class="container mb-4" v-show="isAdmin == 'admin'" v-if="!hideForm">
         <FormTugas :matakuliahs="mk" @getTugas="getTugas" />
@@ -207,6 +207,4 @@ const _hideForm = () => {
 
 
     <Footer> </Footer>
-</template >
-
-    
+</template>
